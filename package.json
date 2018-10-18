@@ -99,6 +99,7 @@
     "docker-db-migration": "docker-compose exec api yarn db-migration",
     "docker-db-seed": "docker-compose exec api yarn db-seed",
     "deploy": "node tools/publish.js",
-    "start": "node tools/run.js"
+    "start": "node tools/run.js",
+    "automate": "node tools/automate.js"
   }
 }
