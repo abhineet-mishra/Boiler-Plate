@@ -14,7 +14,6 @@ const run = (command, options) => execSync(command, {
 // const getPackageJsonPath = path.join(process.cwd(), `${ getRootPath() }package.json`);
 // const getPackageLockJsonPath = path.join(process.cwd(), `${ getRootPath() }package-lock.json`, );
 console.log('This is the current version --> ', coPackage.version);
-let version = coPackage.version;
 const standard_input = process.stdin;
 standard_input.setEncoding('utf-8');
 console.log('To which release version would you like to update?');
@@ -25,8 +24,8 @@ standard_input.on('data', function(data) {
     process.exit();
   } else {
     const inp = data.split('\n');
-    if (inp[0].includes('rc') || sem.satisfies(`${inp[0]}`, `>=${version}`)) {
-      version = inp[0];
+    if (inp[0].includes('rc') || sem.satisfies(`${inp[0]}`, `>=${coPackage.version}`)) {
+      const version = inp[0];
       console.log('This is the final version', version);
       const cmd = `json -I -f package.json -e 'this.version="${version}"'`;
       run(cmd);
