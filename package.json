@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "3.1.0",
+  "version": "3.2.8-rc4",
   "private": true,
   "dependencies": {
     "bluebird": "^3.5.1",
@@ -101,6 +101,8 @@
     "docker-db-seed": "docker-compose exec api yarn db-seed",
     "deploy": "node tools/publish.js",
     "start": "node tools/run.js",
-    "automate": "node tools/automate.js"
+    "automate": "node tools/automate.js",
+    "write-version": "node writeVersion.js",
+    "writeVersionV1": "node writeVersionV1.js"
   }
 }
