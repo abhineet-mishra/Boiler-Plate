@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "3.2.8-rc4",
+  "version": "3.2.8-rc5",
   "private": true,
   "dependencies": {
     "bluebird": "^3.5.1",
