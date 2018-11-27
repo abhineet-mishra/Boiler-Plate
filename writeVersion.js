@@ -32,7 +32,7 @@ standard_input.on('data', function(data) {
       run(cmd);
       run('rm -f .git/index.lock');
       const changes = run('git status --porcelain');
-      const vTag = "v" + `${version}`;
+      const vTag = 'v' + `${version}`;
       const branch = run('git rev-parse --abbrev-ref HEAD');
       if (changes) {
         run('rm -f .git/index.lock');
