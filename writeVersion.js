@@ -27,7 +27,9 @@ standard_input.on('data', function(data) {
     if (inp[0].includes('rc') || sem.satisfies(`${inp[0]}`, `>=${coPackage.version}`)) {
       const version = inp[0];
       console.log('This is the final version', version);
-      const cmd = `json -I -f package.json -e 'this.version="${version}"'`;
+      let cmd = `json -I -f package.json -e 'this.version="${version}"'`;
+      run(cmd);
+      cmd = `json -I -f ./locales/package.json -e 'this.version="${version}"'`;
       run(cmd);
       run('rm -f .git/index.lock');
       const changes = run('git status --porcelain');
@@ -38,6 +40,7 @@ standard_input.on('data', function(data) {
         run('git add .');
         run(`git commit -m "Adding updated packageJson versioning"`);
         run(`git tag -a "${vTag}" -m "${vTag}"`);
+        run(`git push --tags`);
         run(`git push origin ${branch}`);
       }
       process.exit();
