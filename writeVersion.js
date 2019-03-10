@@ -40,7 +40,8 @@ standard_input.on('data', function(data) {
         run('git add .');
         run(`git commit -m "Adding updated packageJson versioning"`);
         run(`git tag -a "${vTag}" -m "${vTag}"`);
-        run(`git push origin --tags`);
+        run(`git push --tags`);
+        run(`git push origin ${branch}`);
       }
       process.exit();
     } else {
