@@ -1,5 +1,6 @@
 const fs = require('fs');
 const coPackage = require('./package.json');
+const innerPackage = require('./locales/package.json');
 const sem = require('semver');
 const path = require('path');
 const execSync = require('child_process').execSync;
@@ -13,7 +14,7 @@ const run = (command, options) => execSync(command, {
 // const getRootPath = () => run('git rev-parse --show-cdup').trim();
 // const getPackageJsonPath = path.join(process.cwd(), `${ getRootPath() }package.json`);
 // const getPackageLockJsonPath = path.join(process.cwd(), `${ getRootPath() }package-lock.json`, );
-console.log('This is the current version --> ', coPackage.version);
+console.log('This is the current version --> ', innerPackage.version);
 const standard_input = process.stdin;
 standard_input.setEncoding('utf-8');
 console.log('To which release version would you like to update?');
@@ -27,7 +28,9 @@ standard_input.on('data', function(data) {
     if (inp[0].includes('rc') || sem.satisfies(`${inp[0]}`, `>=${coPackage.version}`)) {
       const version = inp[0];
       console.log('This is the final version', version);
-      const cmd = `json -I -f package.json -e 'this.version="${version}"'`;
+      let cmd = `json -I -f package.json -e 'this.version="${version}"'`;
+      run(cmd);
+      cmd = `json -I -f ./locales/package.json -e 'this.version="${version}"'`;
       run(cmd);
       run('rm -f .git/index.lock');
       const changes = run('git status --porcelain');
@@ -38,7 +41,7 @@ standard_input.on('data', function(data) {
         run('git add .');
         run(`git commit -m "Adding updated packageJson versioning"`);
         run(`git tag -a "${vTag}" -m "${vTag}"`);
-        run(`git push origin ${branch}`);
+        run(`git push origin --tags`);
       }
       process.exit();
     } else {
